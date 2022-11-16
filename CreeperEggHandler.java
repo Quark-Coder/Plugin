@@ -47,6 +47,25 @@ public class CreeperEggHandler implements Listener {
         if(cooldowns.contains(p.getUniqueId())){
             return;
         }
+        
+        cooldowns.add(p.getUniqueId());
+        new BukkitRunnable() {
+            int remainingCooldown = 10;
+            @Override
+            public void run() {
+                remainingCooldown--;
+                if (remainingCooldown <= 0) {
+                    cooldowns.remove(p.getUniqueId());
+                    p.sendMessage(ChatColor.GREEN + "Cooldown reset!");
+                    p.setLevel(p.getLevel() + 1);
+                    cancel();
+                }
+                else {
+                    p.sendMessage(ChatColor.RED + "Cooldown " + remainingCooldown + " seconds");
+                }
+            }
+        }.runTaskTimer(plugin, 0, 20);
+        
 
         if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && p.getItemInHand().getType() == Material.CREEPER_SPAWN_EGG){
             e.setCancelled(true);
@@ -69,25 +88,7 @@ public class CreeperEggHandler implements Listener {
 
                 p.setLevel(p.getLevel() - 1);
             }
-        }
-
-        cooldowns.add(p.getUniqueId());
-        new BukkitRunnable() {
-            int remainingCooldown = 10;
-            @Override
-            public void run() {
-                remainingCooldown--;
-                if (remainingCooldown <= 0) {
-                    cooldowns.remove(p.getUniqueId());
-                    p.sendMessage(ChatColor.GREEN + "Cooldown reset!");
-                    p.setLevel(p.getLevel() + 1);
-                    cancel();
-                }
-                else {
-                    p.sendMessage(ChatColor.RED + "Cooldown " + remainingCooldown + " seconds");
-                }
-            }
-        }.runTaskTimer(plugin, 0, 20);
+        } 
     }
 
   @EventHandler
