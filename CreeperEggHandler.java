@@ -41,7 +41,12 @@ public class CreeperEggHandler implements Listener {
 
         p = e.getPlayer();
 
-        //Bukkit.broadcastMessage(String.valueOf(p.getUniqueId()));
+        if (p == null)
+            return;
+
+        if(cooldowns.contains(p.getUniqueId())){
+            return;
+        }
 
         if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && p.getItemInHand().getType() == Material.CREEPER_SPAWN_EGG){
             e.setCancelled(true);
@@ -66,19 +71,6 @@ public class CreeperEggHandler implements Listener {
             }
         }
 
-
-
-
-        if(cooldowns.contains(p.getUniqueId())){
-            return;
-        }
-
-        if (p == null)
-            return;
-        if (cooldowns.contains(e.getPlayer().getUniqueId())) {
-            e.setCancelled(true);
-            return;
-        }
         cooldowns.add(p.getUniqueId());
         new BukkitRunnable() {
             int remainingCooldown = 10;
@@ -97,8 +89,6 @@ public class CreeperEggHandler implements Listener {
             }
         }.runTaskTimer(plugin, 0, 20);
     }
-
-
 
   @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
