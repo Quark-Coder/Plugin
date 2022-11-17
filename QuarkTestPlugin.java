@@ -12,14 +12,19 @@ import java.util.logging.Logger;
 
 public final class QuarkTestPlugin extends JavaPlugin {
 
+    private GlobalRunnable globalRunnable;
+
     @Getter
-    private static QuarkTestPlugin instance;
+    private static QuarkTestPlugin plugin;
 
     @Getter
     private static Logger jlogger;
 
     @Override
     public void onEnable() {
+
+        globalRunnable = new GlobalRunnable();
+        globalRunnable.runTaskTimer(this, 0, 20);
 
         getCommand("fly").setExecutor(new Fly());
         getCommand("creeper").setExecutor(new Creeper());
@@ -35,4 +40,7 @@ public final class QuarkTestPlugin extends JavaPlugin {
         // Plugin shutdown logic
     }
 
+    public GlobalRunnable getRunnable() {
+        return globalRunnable;
+    }
 }
