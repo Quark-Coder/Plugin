@@ -40,7 +40,7 @@ public class CreeperEggHandler implements Listener {
 
         if (player.getItemInHand().getType() == Material.CREEPER_SPAWN_EGG && (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))) {
 
-            if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && player.getItemInHand().getType() == Material.CREEPER_SPAWN_EGG) {
+            if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                 event.setCancelled(true);
             }
 
